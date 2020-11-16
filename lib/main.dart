@@ -1,5 +1,18 @@
-import 'package:flutter/material.dart';
+//import 'dart:html';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firstpage/auth_service.dart';
+import 'package:firstpage/homepage.dart';
+import 'package:firstpage/login.dart';
+import 'package:firstpage/work.dart';
+import 'package:firstpage/work1.dart';
+import 'package:firstpage/work2.dart';
+import 'package:firstpage/register.dart';
+
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+/*
 void main() {
   runApp(MaterialApp(
     initialRoute: '/',
@@ -12,371 +25,66 @@ void main() {
       '/fourth': (context) => FourthPage(),
     },
   ));
+}*/
+
+//Firebase setup
+
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Color.fromRGBO(72, 111, 118, 1),
-        body: Container(
-          child: Stack(
-            children: <Widget>[
-              Container( //Triangle Design
-                width: 500,
-                height: 682,
-                color: Color.fromRGBO(72, 111, 118, 1),//184, 174, 121, 1),
-                child: CustomPaint(painter: FaceOutlinePainter()),
-              ),
-              Positioned( //Package Companion Text
-                top: 350,
-                bottom: 100,
-                left: 100,
-                right: 100,
-                child: Text('Package Companion',
-                    style: TextStyle(
-                        color: Color.fromRGBO(179, 161, 145, 1),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 40,
-                        decoration: TextDecoration.underline,),
-
-                    textAlign: TextAlign.center),
-              ),
-              Positioned( // BU Image
-                top: 10,
-                bottom: 400,
-                left: 100,
-                child: Image.asset(
-                    'images/2.png',
-                    height: 10,
-                    width: 200,
-                    fit: BoxFit.fitWidth),
-              ),
-              Positioned(
-                top: 470,
-                bottom: 150,
-                left: 100,
-                right: 100,
-                child: Container( //login
-                  width: 350,
-                  height: 50,
-                  child: RaisedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/second');
-                    },
-                    child: Text('Login',
-                        style: TextStyle(
-                            color: Colors.grey[800],
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25)),
-                    color: Color.fromRGBO(133, 215, 236,1),
-                  ),
-                ),
-              ),//Email
-              Positioned(
-                top: 570,
-                bottom: 50,
-                left: 100,
-                right: 100,
-                child: Container( //Email
-                  width: 350,
-                  height: 50,
-                  child: RaisedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/third');
-                    },
-                    child: Text('Sign Up',
-                        style: TextStyle(
-                            color: Colors.grey[800],
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25)),
-                    color: Color.fromRGBO(133, 215, 236,1),
-                  ),
-                ),
-              ),//Email
-        ]
+    return MultiProvider(providers: [
+        Provider<AuthService>(
+        create: (_) => AuthService(FirebaseAuth.instance),
+          //builder: (_) => FirebaseAuth.instance,
           ),
+
+        StreamProvider(
+          create: (context) => context.read<AuthService>().authStateChanges,
+            //builder: (context) {return context.read<AuthService>().authStateChanges}
+          )
+       ],
+        child: MaterialApp(
+
+              initialRoute: '/',
+              routes: {
+                // When navigating to the "/" route, build the FirstScreen widget.
+               // '/': (context) => MyApp(),
+                '/home': (context) => HomePage(),
+                // When navigating to the "/second" route, build the SecondScreen widget.
+                '/second': (context) => LoginPage(), //
+                '/third': (context) => Register(), //
+                '/fourth': (context) => Work(), //
+                '/fifth': (context) => Work1(),
+                '/sixth': (context) => Work2(),
+              },
+
+          home: AuthenticationWrapper(),
+
         ),
-      ),
-    );
+      );
+
   }
 }
 
 
-class FaceOutlinePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    // Define a paint object
-    final paint = Paint()
-      ..style = PaintingStyle.fill
-      ..strokeWidth = 4.0
-      ..color = Color.fromRGBO(184, 174, 121, 1);
+class AuthenticationWrapper extends StatelessWidget {
+  const AuthenticationWrapper({
+    Key key,
+  }) : super(key: key);
 
-    // create a path
-    var path = Path();
-    //path.lineTo(0, size.height); (size.width / 2, size.height / 2);
-    path.lineTo(0, 250);
-    path.lineTo(size.width / 2, size.height / 2);
-    path.lineTo(size.width,250);
-    path.lineTo(size.width,0);
-    path.lineTo(0,0);
-
-    canvas.drawPath(path, paint);
-    path.close();
-  }
-
-  @override
-  bool shouldRepaint(FaceOutlinePainter oldDelegate) => false;
-}
-
-
-class SecondPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.blueGrey,
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Container( //IMAGE
-                color: Color.fromRGBO(57, 186, 168, 1),
-                child: Image(
-                  image: AssetImage('images/1.jpeg'),
-                  width: 500.0,
-                ),
-              ),
-              SizedBox(
-                height: 50.0,
-              ),
-              Container( //Email
-                width: 350,
-                height: 50,
-                child: RaisedButton(
-                  onPressed: () {},
-                  child: Text('Email ID',
-                      style: TextStyle(
-                          color: Colors.grey[800],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25)),
-                  color: Color.fromRGBO(133, 215, 236,1),
-                ),
-              ),//Email
-              SizedBox(
-                height: 20.0,
-              ),
-              Container( //Password
-                width: 350,
-                height: 50,
-                child: RaisedButton(
-                  onPressed: () {},
-                  child: Text('Password',
-                      style: TextStyle(
-                          color: Colors.grey[800],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25)),
-                  color: Color.fromRGBO(133, 215, 236,1),
-                ),
-              ),//Password
-
-              Container(
-                width: 210,
-                height: 50,
-                margin: EdgeInsets.fromLTRB(200.0, 40.0, 15.0, 3.0),
-                child: RaisedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/fourth');
-                  },
-                  child: Text('Forgot Password?',
-                    style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: 20),),
-                  color: Color.fromRGBO(186, 132, 132, 1),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      //home: Firstpage();
-    );
-  }
-}
-
- class ThirdPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-  return MaterialApp(
-    home: Scaffold(
-      backgroundColor: Color.fromRGBO(72, 111, 118, 1),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-          Container( //IMAGE
-            color: Color.fromRGBO(184, 174, 121,1),
-            child: Image.asset(
-                  'images/3.png',
-                  height: 250,
-                  width: 500,
-                  ),
-          ),
-            SizedBox(
-            height: 50.0,
-          ),
-          Container( //Name
-            width: 350,
-            height: 60,
-            child: RaisedButton(
-              onPressed: () {},
-              child: Text('Name',
-              style: TextStyle(
-                      color: Colors.grey[800],
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25)),
-
-              color: Color.fromRGBO(133, 215, 236,1),
-              ),
-            ),//Email
-            SizedBox(
-          height: 30.0,
-          ),
-          Container( //Enrollment Number
-                    width: 350,
-                    height: 60,
-            child: RaisedButton(
-                  onPressed: () {},
-                  child: Text('Enrollment Number',
-                              style: TextStyle(
-                              color: Colors.grey[800],
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25)),
-                        color: Color.fromRGBO(133, 215, 236,1),
-                        ),
-                    ),//Password
-            SizedBox(
-            height: 30.0,
-            ),
-          Container( //Email
-            width: 350,
-            height: 60,
-            child: RaisedButton(
-              onPressed: () {},
-              child: Text('Email ID',
-                          style: TextStyle(
-                          color: Colors.grey[800],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25)),
-                    color: Color.fromRGBO(133, 215, 236,1),
-                              ),
-                    ),//Email
-            SizedBox(
-              height: 30.0,
-            ),
-          Container( //Password
-            width: 350,
-            height: 60,
-            child: RaisedButton(
-              onPressed: () {},
-              child: Text('Password',
-                        style: TextStyle(
-                        color: Colors.grey[800],
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25)),
-                      color: Color.fromRGBO(133, 215, 236,1),
-                              ),
-                    ),//Password
-        ],
-      )
-    )
-  )
-  );
-  }
-  }
-
-class FourthPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.blueGrey,
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Container( //IMAGE
-                color: Color.fromRGBO(57, 186, 168, 1),
-                child: Image(
-                  image: AssetImage('images/4.png'),
-                  width: 500.0,
-                  height: 270,
-                ),
-              ),
-              SizedBox(
-                height: 30.0,
-              ),
-              Container( //Email
-                width: 350,
-                height: 70,
-                child: RaisedButton(
-                  onPressed: () {},
-                  child: Text('Email ID',
-                      style: TextStyle(
-                          color: Colors.grey[800],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25)),
-                  color: Color.fromRGBO(133, 215, 236,1),
-                ),
-              ),//Email
-              SizedBox(
-                height: 40.0,
-              ),
-              Container( //OTP
-                width: 350,
-                height: 70,
-                child: RaisedButton(
-                  onPressed: () {},
-                  child: Text('Enter OTP',
-                      style: TextStyle(
-                          color: Colors.grey[800],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25)),
-                  color: Color.fromRGBO(133, 215, 236,1),
-                ),
-              ),//Password
-              SizedBox(
-                height: 10.0,
-              ),
-              Container( //Resend OTP
-                //width: 210,
-                height: 30,
-                margin: EdgeInsets.fromLTRB(270.0, 5.0, 15.0, 1.0),
-                child: Text('Resend OTP?',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20),),
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Container( // New Password
-                width: 350,
-                height: 70,
-                child: RaisedButton(
-                  onPressed: () {},
-                  child: Text('New Password',
-                      style: TextStyle(
-                          color: Colors.grey[800],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25)),
-                  color: Color.fromRGBO(133, 215, 236,1),
-                ),
-              ),//New Password
-
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+    final firebaseUser = context.watch<User>();
+    if (firebaseUser != null){
+      return Work();
+    }
+      return HomePage();
+    }
 }
