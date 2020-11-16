@@ -243,32 +243,8 @@ class Work1State extends State<Work1> {
                         : nameController.text.replaceAll(RegExp(' +'),'+')+"-"+enrollmentController.text+"-"+packageController.text;
                   //}); //^ to make it url compatible
 
-
                   createQrCode(qrData); //convert text to url acceptable string
                   sendMail();
-
-                   /*Visibility(
-                    visible: true,
-                    child:
-                    RepaintBoundary(
-                      key: _renderObjectKey,
-                      child: QrImage(
-                        backgroundColor: Colors.white,
-                        embeddedImage:
-                        AssetImage('images/2.png'),
-                        embeddedImageStyle: QrEmbeddedImageStyle(
-                          size: Size(80, 80),
-                        ),
-                        data: qrData,
-                        gapless: true,
-                      ),
-                    ),
-                  );*/
-
-                   //_getWidgetImage();
-
-                   //imageFromBase64String();
-                  //print(_getWidgetImage());
 
                   nameController.clear();
                   emailController.clear();
@@ -277,7 +253,6 @@ class Work1State extends State<Work1> {
 
                   },
 
-
                   child: Text('Enter', //Send data to cloud
                     style: TextStyle(
                         color: Colors.grey[800],
@@ -285,27 +260,6 @@ class Work1State extends State<Work1> {
                   color: Color.fromRGBO(186, 132, 132, 1),
                 ),
               ),
-
-              /*(qrData == null)
-                  ? Text("Not generated")//Container()
-                  : Visibility(
-                      visible: true,
-                    child:
-                RepaintBoundary(
-                  key: _renderObjectKey,
-                  child: QrImage(
-                        backgroundColor: Colors.white,
-                  embeddedImage:
-                      AssetImage('images/2.png'),
-                      embeddedImageStyle: QrEmbeddedImageStyle(
-                      size: Size(80, 80),
-                      ),
-                  data: qrData,
-                  gapless: true,
-              ),
-                ),
-              ),
-                  */
             ],
           ),
         ),
