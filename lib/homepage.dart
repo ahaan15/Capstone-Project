@@ -129,8 +129,6 @@ class FaceOutlinePainter extends CustomPainter { //for homepage design
 }
 
 
-
-
 class Forgot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
