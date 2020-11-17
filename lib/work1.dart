@@ -36,8 +36,8 @@ class Work1State extends State<Work1> {
 
 
   sendMail() async {
-    String username = '<ENTER GMAIL USERNAME>';
-    String password = '<ENTER GMAIL PASSWORD>';
+    String username = 'ENTER_YOUR_EMAIL_ID';
+    String password = 'ENTER_YOUR_PASSWORD';
 
     final smtpServer = gmail(username, password);
 
@@ -47,7 +47,7 @@ class Work1State extends State<Work1> {
       ..recipients.add(emailController.text)
       ..subject = 'Package QR Code'
       ..text = 'This is the plain text.\nThis is line 2 of the text part.'
-      ..html = "<h1></h1>\n<p>Dear, Student\n Please click on the link below to access your QR Code to receive your package :)</p> <p>https://quickchart.io/qr?text=$qrData</p>";
+      ..html = "<h1></h1>\n<p>Dear Student,\n Please click on the link below to access your QR Code to receive your package :)</p> <p>https://quickchart.io/qr?text=$qrData&size=300</p>";
 
     try {
       final sendReport = await send(message, smtpServer);
@@ -98,20 +98,21 @@ class Work1State extends State<Work1> {
     setState(() {
       //print((response.body));
       print(response.body);
-      print(Image(image: NetworkImage("https://quickchart.io/qr?text=$qrData")));
+      print(Image(image: NetworkImage("https://quickchart.io/qr?text=$qrData&size=300")));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: Colors.blueGrey,
         body: Container(
           child: Column(
             children: <Widget>[
               Flexible(
-                flex: 9,
+                flex: 10,
                 child: Container( //IMAGE
                   color: Color.fromRGBO(184, 174, 121,1),
                   child: Image(
@@ -135,6 +136,7 @@ class Work1State extends State<Work1> {
                         hintText: "Name",
                         fillColor: Color.fromRGBO(133, 215, 236,1),
                         filled: true,
+                        contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),//for hint text
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Color.fromRGBO(133, 215, 236,1), width: 4.0),
 
@@ -160,6 +162,7 @@ class Work1State extends State<Work1> {
                         hintText: "Email",
                         fillColor: Color.fromRGBO(133, 215, 236,1),
                         filled: true,
+                        contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),//for hint text
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Color.fromRGBO(133, 215, 236,1), width: 4.0),
                         ),
@@ -184,6 +187,7 @@ class Work1State extends State<Work1> {
                         hintText: "Enrollment No.",
                         fillColor: Color.fromRGBO(133, 215, 236,1),
                         filled: true,
+                        contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),//for hint text
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Color.fromRGBO(133, 215, 236,1), width: 4.0),
                         ),
@@ -209,6 +213,7 @@ class Work1State extends State<Work1> {
                         hintText: "Package No.",
                         fillColor: Color.fromRGBO(133, 215, 236,1),
                         filled: true,
+                        contentPadding: new EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), //for hint text
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Color.fromRGBO(133, 215, 236,1), width: 4.0),
                         ),

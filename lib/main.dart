@@ -35,14 +35,15 @@ class MyApp extends StatelessWidget {
           )
        ],
         child: MaterialApp(
-              initialRoute: '/',
+          debugShowCheckedModeBanner: false,
+          initialRoute: '/',
               routes: {
                // '/': (context) => MyApp(),
                 '/home': (context) => HomePage(),
                 // When navigating to the "/second" route, build the SecondScreen widget.
-                '/second': (context) => LoginPage(), //
-                '/third': (context) => Register(), //
-                '/fourth': (context) => Work(), //
+                '/second': (context) => LoginPage(),
+                '/third': (context) => Register(),
+                '/fourth': (context) => Work(),
                 '/fifth': (context) => Work1(),
                 '/sixth': (context) => Work2(),
               },
