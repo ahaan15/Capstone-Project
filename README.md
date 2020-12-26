@@ -4,5 +4,5 @@ This project is an attempt to remove the need to manually keep a note of the cou
 
 ![image (3)](https://user-images.githubusercontent.com/32360484/103153827-655c4600-47b9-11eb-96ca-55260ee77158.png)
 
-Note:
+**Note:**
 Before running the app, you will need to edit the file 'work1.dart' under the 'lib' folder and enter your email id and password in line 39-40.
